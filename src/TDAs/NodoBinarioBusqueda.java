@@ -55,6 +55,5 @@ public class NodoBinarioBusqueda
     public void setIzquierdo(ArbolBinarioBusqueda izquierdo) 
     {
         this.izquierdo = izquierdo;
-    }
-    
+    }  
 }

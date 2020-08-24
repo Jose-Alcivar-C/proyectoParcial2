@@ -56,7 +56,7 @@ public class Utilitarios
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //este metodo recibe el mapa de frecuencias de caracteres y crea la cola de Prioridad de los Arboles
-    public static PriorityQueue<ArbolBinarioBusqueda> creadorColaDelTexto(Map<Character, Integer> mapaDeFrecuencias)
+    public static PriorityQueue<ArbolBinarioBusqueda> creadorCola(Map<Character, Integer> mapaDeFrecuencias)
     {
         if(!mapaDeFrecuencias.isEmpty() && mapaDeFrecuencias != null)
         {
@@ -96,7 +96,7 @@ public class Utilitarios
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //Este método retorna el árbol de Busqueda de la codificacion del archivo
+    //Este método retorna el árbol de Busqueda a partir de la cola de prioridad
     public static ArbolBinarioBusqueda generarArbolDelTexto(PriorityQueue<ArbolBinarioBusqueda> colaDePrioridad)
     {
        if(colaDePrioridad != null)
@@ -135,5 +135,46 @@ public class Utilitarios
            System.out.println("La cola está vacía");
            return null;
        }
+    }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //Este método retorna el código Huffman de la letra buscada, en base a un árbol
+    public static String generadorDeCodigo(ArbolBinarioBusqueda arbol, String letraBuscada, String concatenar)
+    {
+        if(arbol != null)
+        {
+            if(arbol.getIzquierdo().getRaiz().getContenido().getContenido().indexOf(letraBuscada) == -1)
+            {
+                if(letraBuscada.equals(arbol.getDerecho().getRaiz().getContenido().getContenido()))
+                {
+                    return ( concatenar + arbol.getDerecho().getRaiz().getContenido().getBit());
+                }
+                
+                else
+                {
+                    concatenar = concatenar + arbol.getDerecho().getRaiz().getContenido().getBit();
+                    return ( generadorDeCodigo(arbol.getDerecho(), letraBuscada , concatenar) );
+                }
+            }
+            
+            else
+            {
+                if(letraBuscada.equals(arbol.getIzquierdo().getRaiz().getContenido().getContenido()))
+                {
+                    return ( concatenar + arbol.getIzquierdo().getRaiz().getContenido().getBit());
+                }
+                
+                else
+                {
+                    concatenar = concatenar + arbol.getIzquierdo().getRaiz().getContenido().getBit();
+                    return ( generadorDeCodigo(arbol.getIzquierdo(), letraBuscada , concatenar) );
+                }   
+            }
+        }
+        
+        else
+        {
+            return null;
+        }
     }
 }
