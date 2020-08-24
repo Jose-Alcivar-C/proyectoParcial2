@@ -4,9 +4,9 @@ public class Huffman
 {
     private String contenido;
     private int frecuencia; //cuantas veces está el caracter
-    private int bit; //contiene valor de 1 ó 0;
+    private String bit; //contiene valor de 1 ó 0;
 
-    public Huffman(String contenido, int frecuencia, int bit)
+    public Huffman(String contenido, int frecuencia, String bit)
     {
         this.contenido = contenido;
         this.frecuencia = frecuencia;
@@ -44,13 +44,13 @@ public class Huffman
     }
 
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public int getBit()
+    public String getBit()
     {
         return bit;
     }
     
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    public void setBit(int bit) 
+    public void setBit(String bit) 
     {
         this.bit = bit;
     }

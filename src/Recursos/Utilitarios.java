@@ -56,13 +56,21 @@ public class Utilitarios
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //este metodo recibe el mapa de frecuencias de caracteres y crea la cola de Prioridad de los Arboles
-    public static PriorityQueue<ArbolBinarioBusqueda> creadorCola(Map<Character, Integer> mapaDeFrecuencias)
+    public static PriorityQueue<ArbolBinarioBusqueda> creadorColaDelTexto(Map<Character, Integer> mapaDeFrecuencias)
     {
         if(!mapaDeFrecuencias.isEmpty() && mapaDeFrecuencias != null)
         {
-            PriorityQueue<ArbolBinarioBusqueda> colaDeArboles = new PriorityQueue<>((num1, num2)->
+            PriorityQueue<ArbolBinarioBusqueda> colaDeArboles = new PriorityQueue<>((arb1, arb2)->
             { 
-                return (num1.getRaiz().getContenido().getFrecuencia() - num2.getRaiz().getContenido().getFrecuencia());
+                if(arb1.getRaiz().getContenido().getFrecuencia() == arb2.getRaiz().getContenido().getFrecuencia())
+                {
+                    return(arb1.getRaiz().getContenido().getContenido().compareTo(arb2.getRaiz().getContenido().getContenido()));
+                }
+                
+                else
+                {
+                    return (arb1.getRaiz().getContenido().getFrecuencia() - arb2.getRaiz().getContenido().getFrecuencia());
+                }
             });
             
             Set<Character> claves = mapaDeFrecuencias.keySet();
@@ -85,5 +93,47 @@ public class Utilitarios
             System.out.println("no hay datos");
             return null;
         }
+    }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //Este método retorna el árbol de Busqueda de la codificacion del archivo
+    public static ArbolBinarioBusqueda generarArbolDelTexto(PriorityQueue<ArbolBinarioBusqueda> colaDePrioridad)
+    {
+       if(colaDePrioridad != null)
+       {   
+           while(!colaDePrioridad.isEmpty() && colaDePrioridad.size()>1)
+           {
+               ArbolBinarioBusqueda arb1 = colaDePrioridad.remove();
+               ArbolBinarioBusqueda arb2 = colaDePrioridad.remove();
+               String contenido1 = arb1.getRaiz().getContenido().getContenido();
+               String contenido2 = arb2.getRaiz().getContenido().getContenido();
+               int frecuencia1 = arb1.getRaiz().getContenido().getFrecuencia();
+               int frecuencia2 = arb2.getRaiz().getContenido().getFrecuencia();
+               
+               Huffman nuevoNodo = new Huffman(contenido1+contenido2, frecuencia1+frecuencia2);
+               ArbolBinarioBusqueda nuevoArbol = new ArbolBinarioBusqueda(nuevoNodo);
+               
+               arb1.getRaiz().getContenido().setBit("0");
+               arb2.getRaiz().getContenido().setBit("1");
+               
+               nuevoArbol.setIzquierdo(arb1);
+               nuevoArbol.setDerecho(arb2);
+               
+               colaDePrioridad.add(nuevoArbol);
+           }
+           return colaDePrioridad.remove();
+           
+           /*while(!colaDePrioridad.isEmpty())
+           {
+               ArbolBinarioBusqueda ar = colaDePrioridad.remove();
+               System.out.println(ar.getRaiz().getContenido().getContenido()+ " : " + ar.getRaiz().getContenido().getFrecuencia()+ " : " + ar.getClass().toString());
+           }*/
+       }
+       
+       else
+       {
+           System.out.println("La cola está vacía");
+           return null;
+       }
     }
 }
