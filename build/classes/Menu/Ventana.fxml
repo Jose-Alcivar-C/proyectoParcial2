@@ -47,10 +47,11 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <TableView fx:id="tablaDeFrecuencia" layoutX="28.0" layoutY="304.0" prefHeight="378.0" prefWidth="236.0">
+      <TableView fx:id="tablaDeFrecuencia" layoutX="28.0" layoutY="304.0" prefHeight="378.0" prefWidth="368.0">
         <columns>
-          <TableColumn prefWidth="101.0" text="letra" />
-          <TableColumn prefWidth="134.0" text="veces que aparece" />
+          <TableColumn fx:id="letra" prefWidth="101.0" text="letra" />
+          <TableColumn fx:id="frecuencia" prefWidth="68.0" text="veces que aparece" />
+            <TableColumn fx:id="codigo" prefWidth="200.0" text="codigo Huffman" />
         </columns>
       </TableView>
    </children>

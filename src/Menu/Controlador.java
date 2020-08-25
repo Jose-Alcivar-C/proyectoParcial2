@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
 public class Controlador implements Initializable 
@@ -22,12 +23,22 @@ public class Controlador implements Initializable
     private TableView tablaDeFrecuencia;
     
     @FXML
+    private TableColumn letra;
+    
+    @FXML
+    private TableColumn frecuencia;
+    
+    @FXML
+    private TableColumn codigo;
+    
+    @FXML
     private void accionCodificarArchivo(ActionEvent event) 
     {
         codificarNuevoArchivo.setDisable(false);
         try
         {
-            Iniciadores.elegirArchivo();
+            Iniciadores.elegirArchivo(tablaDeFrecuencia, letra, frecuencia, codigo);
+            
         }
         
         catch(Exception e)
