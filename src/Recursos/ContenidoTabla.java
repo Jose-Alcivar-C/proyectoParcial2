@@ -18,33 +18,33 @@ public class ContenidoTabla
         this.frecuencia = new SimpleIntegerProperty(frecuencia);
     }
     
-    public StringProperty getLetra() 
+    public String getLetra() 
     {
-        return letra;
+        return letra.get();
     }
 
-    public void setLetra(SimpleStringProperty letra) 
+    public void setLetra(String letra) 
     {
-        this.letra = letra;
+        this.letra.set(letra);
     }
 
-    public StringProperty getCodigo() 
+    public String getCodigo() 
     {
-        return codigo;
+        return codigo.get();
     }
 
-    public void setCodigo(SimpleStringProperty codigo) 
+    public void setCodigo(String codigo) 
     {
-        this.codigo = codigo;
+        this.codigo.set(codigo);
     }
 
-    public IntegerProperty getFrecuencia() 
+    public Integer getFrecuencia() 
     {
-        return frecuencia;
+        return frecuencia.get();
     }
 
-    public void setFrecuencia(SimpleIntegerProperty frecuencia) 
+    public void setFrecuencia(Integer frecuencia) 
     {
-        this.frecuencia = frecuencia;
+        this.frecuencia.set(frecuencia);
     }
 }

@@ -10,22 +10,30 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
-import javafx.util.Callback;
 
 public class Iniciadores
 {
+    public static ArbolBinarioBusqueda arbolito;
+    
+    
+    //Este método setea los valores que contendrá la tabla de informacion del archivo
     public static void mostrarCodificacion(String archivoALeer, TableView tabla, TableColumn letra, TableColumn frecuencia, TableColumn codigo)
     {
+        //esta lista contiene los elementos que irán en la tabla
         ObservableList<ContenidoTabla> llenar = FXCollections.observableArrayList();
         
         Map<String, Integer> mapita = Utilitarios.lectorDeArchivo(archivoALeer);
         PriorityQueue<ArbolBinarioBusqueda> colita = Utilitarios.creadorCola(mapita);
-        ArbolBinarioBusqueda fin = Utilitarios.generarArbolDelTexto(colita);
+        arbolito = Utilitarios.generarArbolDelTexto(colita);
        
         while(!colita.isEmpty())
         {
-            String buscado = colita.remove().getRaiz().getContenido().getContenido();
-            llenar.add(new ContenidoTabla(buscado, Utilitarios.generadorDeCodigo(fin, buscado, ""), mapita.get(buscado)));
+            String caracterBuscado = colita.remove().getRaiz().getContenido().getContenido();
+            int frec =  mapita.get(caracterBuscado);
+            String cod = Utilitarios.generadorDeCodigo(arbolito, caracterBuscado, "");
+            
+            ContenidoTabla agregar = new ContenidoTabla(caracterBuscado, cod, frec);
+            llenar.add(agregar);
         }
         
         letra = (TableColumn<ContenidoTabla, String>)tabla.getColumns().get(0);
@@ -35,7 +43,7 @@ public class Iniciadores
         letra.setCellValueFactory(new PropertyValueFactory<ContenidoTabla, String>("letra"));
         frecuencia.setCellValueFactory(new PropertyValueFactory<ContenidoTabla, Integer>("frecuencia"));
         codigo.setCellValueFactory(new PropertyValueFactory<ContenidoTabla, String>("codigo"));
-  
+        
         tabla.setItems(llenar);
     }
     
@@ -63,5 +71,48 @@ public class Iniciadores
         {
             System.out.println("elija un archivo");
         }
+    }
+   
+    
+    /***
+     * Método para codificar una cadena
+     * @param arbolito arbol binario de huffman
+     * @param cadena secuencia de letras a codificar
+     * @return cadena de texto codificada
+     */
+    public static String codificarCadena(ArbolBinarioBusqueda arbolito, String cadena )
+    {
+        StringBuilder cadenaCodificada = new StringBuilder();
+        
+        for(Character caracter : cadena.toCharArray()){
+            String codigo = Utilitarios.generadorDeCodigo(arbolito, caracter.toString(), "");
+            cadenaCodificada.append(codigo);
+            
+        }
+        return cadenaCodificada.toString();
+    }
+    
+    /***
+     * Método para decodificar una cadena
+     * @param arbolito arbol binario de huffman
+     * @param cadena secuencia de unos y ceros a decodificar
+     * @return cadena de texto decodificada
+     */
+    public static String decodificarCadena(ArbolBinarioBusqueda arbolito, String cadena )
+    {
+        StringBuilder cadenaCodificada = new StringBuilder();
+        String tmp = "";
+        
+        for(Character bit : cadena.toCharArray())
+        {
+            tmp  = tmp + bit;
+            String decodificacion = Utilitarios.generadorDeCaracteres( arbolito, tmp);
+            
+            if( decodificacion != null){
+                cadenaCodificada.append(decodificacion);
+                tmp = "";
+            }
+        }
+        return cadenaCodificada.toString();
     }
 }

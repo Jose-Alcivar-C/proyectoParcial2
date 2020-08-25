@@ -81,6 +81,7 @@ public class Utilitarios
             {
                 String letra = iterador.next();
                 int frecuencia = mapaDeFrecuencias.get(letra);
+                
                 Huffman capsula = new Huffman(letra, frecuencia);
                 ArbolBinarioBusqueda arbolito = new ArbolBinarioBusqueda(capsula);
                 colaDeArboles.add(arbolito);
@@ -100,7 +101,7 @@ public class Utilitarios
     //Este método retorna el árbol de Busqueda a partir de la cola de prioridad
     public static ArbolBinarioBusqueda generarArbolDelTexto(PriorityQueue<ArbolBinarioBusqueda> colaDePrioridad)
     {
-       if(colaDePrioridad != null)
+        if(colaDePrioridad != null)
         {   
             PriorityQueue<ArbolBinarioBusqueda> copiaDeCola = new PriorityQueue<>(colaDePrioridad);
             
@@ -108,8 +109,10 @@ public class Utilitarios
             {
                ArbolBinarioBusqueda arb1 = copiaDeCola.remove();
                ArbolBinarioBusqueda arb2 = copiaDeCola.remove();
+               
                String contenido1 = arb1.getRaiz().getContenido().getContenido();
                String contenido2 = arb2.getRaiz().getContenido().getContenido();
+               
                int frecuencia1 = arb1.getRaiz().getContenido().getFrecuencia();
                int frecuencia2 = arb2.getRaiz().getContenido().getFrecuencia();
                
@@ -124,13 +127,8 @@ public class Utilitarios
                
                copiaDeCola.add(nuevoArbol);
            }
-           return copiaDeCola.remove();
            
-           /*while(!colaDePrioridad.isEmpty())
-           {
-               ArbolBinarioBusqueda ar = colaDePrioridad.remove();
-               System.out.println(ar.getRaiz().getContenido().getContenido()+ " : " + ar.getRaiz().getContenido().getFrecuencia()+ " : " + ar.getClass().toString());
-           }*/
+            return copiaDeCola.remove();
        }
        
        else
@@ -141,7 +139,7 @@ public class Utilitarios
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //Este método retorna el código Huffman de la letra buscada, en base a un árbol
+    //Este método retorna el código Huffman de la letra buscada, en base a un árbol pasado como parámetro
     public static String generadorDeCodigo(ArbolBinarioBusqueda arbol, String letraBuscada, String concatenar)
     {
         if(arbol != null)
@@ -180,4 +178,55 @@ public class Utilitarios
             return null;
         }
     }
+    
+
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /***
+     * Este método retorna el caracter equivalente a cierta cadena de bits
+     * @param arbol arbol binario de huffman
+     * @param codigo secuencia de unos y ceros
+     * @return 
+     */
+    public static String generadorDeCaracteres(ArbolBinarioBusqueda arbol, String codigo)
+    {
+        if(arbol == null || codigo.equals(""))
+        {
+            return null;
+        }
+        
+        Character caracter = codigo.charAt(0);
+        
+        if( caracter == '0')
+        {
+            ArbolBinarioBusqueda subarbolIzquierdo = arbol.getIzquierdo();
+            
+            if(subarbolIzquierdo.esHoja())
+            {   
+                return subarbolIzquierdo.getRaiz().getContenido().getContenido();
+            }
+            else
+            {
+                return generadorDeCaracteres(subarbolIzquierdo, codigo.substring(1));
+            }
+        }
+        else if (caracter == '1' )
+        {
+            ArbolBinarioBusqueda subarbolDerecho = arbol.getDerecho();
+            
+            if(subarbolDerecho.esHoja())
+            {
+                return subarbolDerecho.getRaiz().getContenido().getContenido();
+            }
+            else
+            {
+                return generadorDeCaracteres(subarbolDerecho, codigo.substring(1));
+            }
+        }
+        return null;
+    }
+    
+    
+    
+    
 }
+

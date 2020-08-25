@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -27,7 +28,7 @@
             <Font name="Calibri Italic" size="36.0" />
          </font>
       </Label>
-      <Label layoutX="184.0" layoutY="193.0" prefHeight="45.0" prefWidth="590.0" text="Archivo codificado satisfactoriamente" textFill="#18974f">
+      <Label fx:id="mensaje" layoutX="242.0" layoutY="194.0" prefHeight="45.0" prefWidth="474.0" text="Archivo codificado exitosamente" textFill="#18974f">
          <font>
             <Font name="Calibri Italic" size="36.0" />
          </font>
@@ -47,12 +48,20 @@
             <Font size="20.0" />
          </font>
       </Button>
-      <TableView fx:id="tablaDeFrecuencia" layoutX="28.0" layoutY="304.0" prefHeight="378.0" prefWidth="368.0">
+      <TableView fx:id="tablaDeFrecuencia" layoutX="28.0" layoutY="304.0" prefHeight="378.0" prefWidth="316.0">
         <columns>
-          <TableColumn fx:id="letra" prefWidth="101.0" text="letra" />
-          <TableColumn fx:id="frecuencia" prefWidth="68.0" text="veces que aparece" />
-            <TableColumn fx:id="codigo" prefWidth="200.0" text="codigo Huffman" />
+          <TableColumn fx:id="letra" prefWidth="41.0" resizable="false" style="-fx-alignment: center;" text="letra" />
+          <TableColumn fx:id="frecuencia" prefWidth="118.0" resizable="false" style="-fx-alignment: center;" text="veces que aparece" />
+            <TableColumn fx:id="codigo" prefWidth="144.0" resizable="false" style="-fx-alignment: center;" text="codigo Huffman" />
         </columns>
       </TableView>
+      <Label fx:id="mensaje1" layoutX="368.0" layoutY="194.0" prefHeight="45.0" prefWidth="222.0" text="Elija un archivo" textFill="#ff1e00">
+         <font>
+            <Font name="Calibri Italic" size="36.0" />
+         </font>
+      </Label>
+      <Button fx:id="botonCtr" layoutX="546.0" layoutY="304.0" mnemonicParsing="false" onAction="#llenar" text="Mostrar codificacion en tiempo real" visible="false" />
+      <TextArea fx:id="trCodificar" layoutX="548.0" layoutY="354.0" onKeyReleased="#Codificar" prefHeight="121.0" prefWidth="383.0" promptText="Texto a codificar" visible="false" />
+      <TextArea fx:id="trDecodificar" layoutX="552.0" layoutY="497.0" onKeyReleased="#Decodificar" prefHeight="121.0" prefWidth="383.0" promptText="Texto a decodificar" visible="false" />
    </children>
 </AnchorPane>
