@@ -1,5 +1,6 @@
 package Menu;
 
+import Recursos.Iniciadores;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -24,7 +25,15 @@ public class Controlador implements Initializable
     private void accionCodificarArchivo(ActionEvent event) 
     {
         codificarNuevoArchivo.setDisable(false);
-        botonMostrar.setText("ocultar");
+        try
+        {
+            Iniciadores.elegirArchivo();
+        }
+        
+        catch(Exception e)
+        {
+            System.out.println("Elija un archivo");
+        }
     }
     
     @FXML

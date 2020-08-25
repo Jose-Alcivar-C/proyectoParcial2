@@ -14,9 +14,9 @@ import java.util.TreeMap;
 public class Utilitarios 
 {
     //este metodo lee un archivo de texto y retorna un mapa con cada caracter y su frecuencia.
-    public static Map<Character, Integer> lectorDeArchivo(String nombreDelArchivo)
+    public static Map<String, Integer> lectorDeArchivo(String nombreDelArchivo)
     {
-        Map<Character, Integer> datos = new TreeMap<>();
+        Map<String, Integer> datos = new TreeMap<>();
         
         try
         {
@@ -30,15 +30,16 @@ public class Utilitarios
                
                for(char letra: caracteres)
                {
-                   if(datos.containsKey(letra))
+                   String agregar = String.valueOf(letra);
+                   if(datos.containsKey(agregar))
                    {
-                       int frecuencia = datos.get(letra)+1;
-                       datos.put(letra, frecuencia);
+                       int frecuencia = datos.get(agregar)+1;
+                       datos.put(agregar, frecuencia);
                    }
                    
                    else
                    {
-                       datos.put(letra, 1);
+                       datos.put(agregar, 1);
                    }
                }
            }
@@ -56,7 +57,7 @@ public class Utilitarios
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //este metodo recibe el mapa de frecuencias de caracteres y crea la cola de Prioridad de los Arboles
-    public static PriorityQueue<ArbolBinarioBusqueda> creadorCola(Map<Character, Integer> mapaDeFrecuencias)
+    public static PriorityQueue<ArbolBinarioBusqueda> creadorCola(Map<String, Integer> mapaDeFrecuencias)
     {
         if(!mapaDeFrecuencias.isEmpty() && mapaDeFrecuencias != null)
         {
@@ -73,14 +74,14 @@ public class Utilitarios
                 }
             });
             
-            Set<Character> claves = mapaDeFrecuencias.keySet();
-            Iterator<Character> iterador = claves.iterator();
+            Set<String> claves = mapaDeFrecuencias.keySet();
+            Iterator<String> iterador = claves.iterator();
         
             while(iterador.hasNext())
             {
-                Character letra = iterador.next();
+                String letra = iterador.next();
                 int frecuencia = mapaDeFrecuencias.get(letra);
-                Huffman capsula = new Huffman(String.valueOf(letra), frecuencia);
+                Huffman capsula = new Huffman(letra, frecuencia);
                 ArbolBinarioBusqueda arbolito = new ArbolBinarioBusqueda(capsula);
                 colaDeArboles.add(arbolito);
             }
@@ -100,11 +101,13 @@ public class Utilitarios
     public static ArbolBinarioBusqueda generarArbolDelTexto(PriorityQueue<ArbolBinarioBusqueda> colaDePrioridad)
     {
        if(colaDePrioridad != null)
-       {   
-           while(!colaDePrioridad.isEmpty() && colaDePrioridad.size()>1)
-           {
-               ArbolBinarioBusqueda arb1 = colaDePrioridad.remove();
-               ArbolBinarioBusqueda arb2 = colaDePrioridad.remove();
+        {   
+            PriorityQueue<ArbolBinarioBusqueda> copiaDeCola = new PriorityQueue<>(colaDePrioridad);
+            
+            while(!copiaDeCola.isEmpty() && copiaDeCola.size()>1)
+            {
+               ArbolBinarioBusqueda arb1 = copiaDeCola.remove();
+               ArbolBinarioBusqueda arb2 = copiaDeCola.remove();
                String contenido1 = arb1.getRaiz().getContenido().getContenido();
                String contenido2 = arb2.getRaiz().getContenido().getContenido();
                int frecuencia1 = arb1.getRaiz().getContenido().getFrecuencia();
@@ -119,9 +122,9 @@ public class Utilitarios
                nuevoArbol.setIzquierdo(arb1);
                nuevoArbol.setDerecho(arb2);
                
-               colaDePrioridad.add(nuevoArbol);
+               copiaDeCola.add(nuevoArbol);
            }
-           return colaDePrioridad.remove();
+           return copiaDeCola.remove();
            
            /*while(!colaDePrioridad.isEmpty())
            {

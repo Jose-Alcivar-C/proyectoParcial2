@@ -1,26 +1,52 @@
 package Recursos;
 
 import TDAs.ArbolBinarioBusqueda;
-import java.util.Iterator;
+import java.io.File;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Set;
-import javafx.scene.control.TableView;
+import javafx.scene.Parent;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javax.swing.JFileChooser;
 
-public class Iniciadores 
+public class Iniciadores
 {
     public static void mostrarCodificacion(String archivoALeer)
     {
-        Map<Character, Integer> mapita = Utilitarios.lectorDeArchivo(archivoALeer);
+        Map<String, Integer> mapita = Utilitarios.lectorDeArchivo(archivoALeer);
         PriorityQueue<ArbolBinarioBusqueda> colita = Utilitarios.creadorCola(mapita);
         ArbolBinarioBusqueda fin = Utilitarios.generarArbolDelTexto(colita);
-        
-        Set<Character> conjunto = mapita.keySet();
-        Iterator<Character> iterador = conjunto.iterator();
-        while(iterador.hasNext())
+       
+        while(!colita.isEmpty())
         {
-            Character letra = iterador.next();
-            System.out.println(letra + " : " + Utilitarios.generadorDeCodigo(fin, String.valueOf(letra), ""));
+            String buscado = colita.remove().getRaiz().getContenido().getContenido();
+            System.out.println(buscado + " : " + mapita.get(buscado) + " : " + Utilitarios.generadorDeCodigo(fin, buscado, ""));
+        }
+    }
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //Este método nos permite escoger un archivo dandole clic
+    public static void elegirArchivo()
+    {
+        FileChooser elegirArchivo = new FileChooser();
+        elegirArchivo.setTitle("Elegir archivo de texto");
+        elegirArchivo.getExtensionFilters().add(new FileChooser.ExtensionFilter("archivo de texto","*.txt"));
+        
+        File archivo = elegirArchivo.showOpenDialog(null);
+        String ruta = archivo.getAbsolutePath();
+        
+        try
+        {
+            if(archivo != null)
+            {
+                mostrarCodificacion(ruta);
+                System.out.println(ruta);
+            }
+        }
+        
+        catch(NullPointerException error)
+        {
+            System.out.println("elija un archivo");
         }
     }
 }
