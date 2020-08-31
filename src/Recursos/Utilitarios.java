@@ -3,8 +3,11 @@ package Recursos;
 import TDAs.ArbolBinarioBusqueda;
 import TDAs.Huffman;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -179,54 +182,56 @@ public class Utilitarios
         }
     }
     
-
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    /***
-     * Este método retorna el caracter equivalente a cierta cadena de bits
-     * @param arbol arbol binario de huffman
-     * @param codigo secuencia de unos y ceros
-     * @return 
-     */
-    public static String generadorDeCaracteres(ArbolBinarioBusqueda arbol, String codigo)
+    //Este método escribe un archivo en base a la codificacion del archivo original
+    public static void escritorDeArchivo(String archivoParaLeer, Map<String, String> mapaDeBuscar, String nombreNuevo)
     {
-        if(arbol == null || codigo.equals(""))
+        ArrayList<String> codificacion = new ArrayList<>();
+        
+        try
         {
-            return null;
+           FileReader lec1 = new FileReader(archivoParaLeer);
+           BufferedReader lec2 = new BufferedReader(lec1);
+           String linea;
+            
+           while((linea = lec2.readLine())!= null)
+           {
+               char[] caracteres = linea.toCharArray();
+               String lectura = "";
+               
+               for(char letra: caracteres)
+               {
+                   String leido = String.valueOf(letra);
+                   lectura = lectura + mapaDeBuscar.get(leido);
+               }
+               codificacion.add(lectura);
+           }
+           
+           lec1.close();
         }
         
-        Character caracter = codigo.charAt(0);
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         
-        if( caracter == '0')
+        try
         {
-            ArbolBinarioBusqueda subarbolIzquierdo = arbol.getIzquierdo();
+            FileWriter escrito = new FileWriter(nombreNuevo);
+            BufferedWriter escrito2 = new BufferedWriter(escrito);
             
-            if(subarbolIzquierdo.esHoja())
-            {   
-                return subarbolIzquierdo.getRaiz().getContenido().getContenido();
-            }
-            else
+            for(String codi: codificacion)
             {
-                return generadorDeCaracteres(subarbolIzquierdo, codigo.substring(1));
+                escrito2.write(codi);
+                escrito2.newLine();
             }
+            
+            escrito2.close();
         }
-        else if (caracter == '1' )
+        
+        catch(Exception e)
         {
-            ArbolBinarioBusqueda subarbolDerecho = arbol.getDerecho();
-            
-            if(subarbolDerecho.esHoja())
-            {
-                return subarbolDerecho.getRaiz().getContenido().getContenido();
-            }
-            else
-            {
-                return generadorDeCaracteres(subarbolDerecho, codigo.substring(1));
-            }
+            e.printStackTrace();
         }
-        return null;
     }
-    
-    
-    
-    
 }
-

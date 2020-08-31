@@ -1,67 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="708.0" prefWidth="958.0" style="-fx-background-color: #C0FEFC;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.Controlador">
+<AnchorPane fx:id="contenedorBase" maxHeight="0.0" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.Controlador">
    <children>
-      <Label layoutX="291.0" layoutY="14.0" prefHeight="45.0" prefWidth="376.0" text="Bienvenido al codificador " textFill="#2039c9">
-         <font>
-            <Font name="Calibri Italic" size="36.0" />
-         </font>
-      </Label>
-      <Button layoutX="58.0" layoutY="136.0" mnemonicParsing="false" onAction="#accionCodificarArchivo" prefHeight="30.0" prefWidth="252.0" text="Elegir archivo a codificar">
-         <font>
-            <Font size="20.0" />
-         </font></Button>
-      <Button fx:id="botonMostrar" graphicTextGap="0.0" layoutX="118.0" layoutY="268.0" mnemonicParsing="false" onAction="#accionMostrar" prefHeight="11.0" prefWidth="60.0" text="Mostrar">
-         <font>
-            <Font size="10.0" />
-         </font></Button>
-      <Label layoutX="389.0" layoutY="59.0" prefHeight="45.0" prefWidth="180.0" text="de Huffman" textFill="#2039c9">
-         <font>
-            <Font name="Calibri Italic" size="36.0" />
-         </font>
-      </Label>
-      <Label fx:id="mensaje" layoutX="242.0" layoutY="194.0" prefHeight="45.0" prefWidth="474.0" text="Archivo codificado exitosamente" textFill="#18974f">
-         <font>
-            <Font name="Calibri Italic" size="36.0" />
-         </font>
-      </Label>
-      <Label layoutX="22.0" layoutY="239.0" prefHeight="39.0" prefWidth="222.0" text="¿Desea ver la tabla de frecuencias" textFill="#2039c9">
-         <font>
-            <Font name="Calibri Italic" size="16.0" />
-         </font>
-      </Label>
-      <Label graphicTextGap="0.0" layoutX="22.0" layoutY="258.0" prefHeight="39.0" prefWidth="94.0" text="de su archivo?" textFill="#2039c9">
-         <font>
-            <Font name="Calibri Italic" size="16.0" />
-         </font>
-      </Label>
-      <Button fx:id="codificarNuevoArchivo" layoutX="648.0" layoutY="136.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="252.0" text="Codificar nuevo archivo">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Button>
-      <TableView fx:id="tablaDeFrecuencia" layoutX="28.0" layoutY="304.0" prefHeight="378.0" prefWidth="316.0">
+      <TableView fx:id="tablaDeFrecuencia" layoutX="538.0" layoutY="303.0" prefHeight="358.0" prefWidth="332.0">
         <columns>
-          <TableColumn fx:id="letra" prefWidth="41.0" resizable="false" style="-fx-alignment: center;" text="letra" />
-          <TableColumn fx:id="frecuencia" prefWidth="118.0" resizable="false" style="-fx-alignment: center;" text="veces que aparece" />
-            <TableColumn fx:id="codigo" prefWidth="144.0" resizable="false" style="-fx-alignment: center;" text="codigo Huffman" />
+          <TableColumn fx:id="letra" prefWidth="45.0" resizable="false" style="-fx-alignment: center;" text="letra" />
+          <TableColumn fx:id="frecuencia" prefWidth="114.0" resizable="false" style="-fx-alignment: center;" text="veces que aparece" />
+            <TableColumn fx:id="codigo" prefWidth="162.0" resizable="false" style="-fx-alignment: center;" text="codigo Huffman" />
         </columns>
       </TableView>
-      <Label fx:id="mensaje1" layoutX="368.0" layoutY="194.0" prefHeight="45.0" prefWidth="222.0" text="Elija un archivo" textFill="#ff1e00">
-         <font>
-            <Font name="Calibri Italic" size="36.0" />
-         </font>
-      </Label>
-      <Button fx:id="botonCtr" layoutX="546.0" layoutY="304.0" mnemonicParsing="false" onAction="#llenar" text="Mostrar codificacion en tiempo real" visible="false" />
-      <TextArea fx:id="trCodificar" layoutX="548.0" layoutY="354.0" onKeyReleased="#Codificar" prefHeight="121.0" prefWidth="383.0" promptText="Texto a codificar" visible="false" />
-      <TextArea fx:id="trDecodificar" layoutX="552.0" layoutY="497.0" onKeyReleased="#Decodificar" prefHeight="121.0" prefWidth="383.0" promptText="Texto a decodificar" visible="false" />
+      <ImageView fitHeight="246.0" fitWidth="900.0">
+         <image>
+            <Image url="@../EdicionVentana/banner.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="elegirArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="42.0" layoutY="263.0" onMouseClicked="#accionCodificarArchivo">
+         <image>
+            <Image url="@../EdicionVentana/elegir%20archivo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="ocultarTabla" accessibleRole="BUTTON" fitHeight="38.0" fitWidth="200.0" layoutX="604.0" layoutY="255.0" onMouseClicked="#accionOcultar">
+         <image>
+            <Image url="@../EdicionVentana/tabla(ocultar).png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="mostrarTabla" accessibleRole="BUTTON" fitHeight="38.0" fitWidth="200.0" layoutX="604.0" layoutY="255.0" onMouseClicked="#accionMostrar">
+         <image>
+            <Image url="@../EdicionVentana/tabla(ver).png" />
+         </image>
+      </ImageView>
+      <Separator layoutX="498.0" layoutY="245.0" orientation="VERTICAL" prefHeight="430.0" prefWidth="40.0" />
+      <ImageView fx:id="codificarNuevoArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="274.0" layoutY="263.0" onMouseClicked="#accionCodificarNuevo">
+         <image>
+            <Image url="@../EdicionVentana/codificarNuevo.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="guardarArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="42.0" layoutY="263.0" onMouseClicked="#guardarFichero">
+         <image>
+            <Image url="@../EdicionVentana/guardarArchivo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

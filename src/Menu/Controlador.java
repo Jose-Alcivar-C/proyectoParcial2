@@ -1,25 +1,36 @@
 package Menu;
 
 import Recursos.Iniciadores;
-import TDAs.ArbolBinarioBusqueda;
 import java.net.URL;
+import java.util.Map;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 public class Controlador implements Initializable 
 {   
-    @FXML
-    private Button codificarNuevoArchivo;
+    private String rutaLectura;
+    private Map<String, String> caracteres;
     
     @FXML
-    private Button botonMostrar;
+    private ImageView codificarNuevoArchivo;
+    
+    @FXML
+    private ImageView elegirArchivo;
+    
+    @FXML
+    private ImageView guardarArchivo;
+    
+    @FXML
+    private ImageView ocultarTabla;
+    
+    @FXML
+    private ImageView mostrarTabla;
     
     @FXML
     private TableView tablaDeFrecuencia;
@@ -33,112 +44,67 @@ public class Controlador implements Initializable
     @FXML
     private TableColumn codigo;
     
-    @FXML
-    private Label mensaje;
-    
-    @FXML
-    private Label mensaje1;
     
     @FXML
     private Label escritura;
     
     @FXML
-    private Button botonCtr;
-    
-    @FXML
-    private TextArea trCodificar;
-    
-    @FXML
-    private TextArea trDecodificar;
-    
-    @FXML
-    private void accionCodificarArchivo(ActionEvent event) 
-    {
-        codificarNuevoArchivo.setDisable(false);
+    private void accionCodificarArchivo(MouseEvent event) 
+    {   
         try
         {
-            Iniciadores.elegirArchivo(tablaDeFrecuencia, letra, frecuencia, codigo);
-            mensaje.setVisible(true);
-            mensaje1.setVisible(false);
-            
-            botonCtr.setVisible(true);
-            botonCtr.setText("Mostrar codificacion en tiempo real");
+            rutaLectura = Iniciadores.elegirArchivo();
+            caracteres = Iniciadores.mostrarCodificacion(rutaLectura, tablaDeFrecuencia, letra, frecuencia, codigo);
+            elegirArchivo.setVisible(false);
+            Iniciadores.activador(mostrarTabla, codificarNuevoArchivo, guardarArchivo);
         }
         
         catch(Exception e)
         {
-            mensaje.setVisible(false);
-            mensaje1.setVisible(true);
+            System.out.print("");
+        }
+    }
+    
+    @FXML
+    private void accionCodificarNuevo(MouseEvent event)
+    {
+        Iniciadores.desactivador(tablaDeFrecuencia, mostrarTabla, ocultarTabla, codificarNuevoArchivo, guardarArchivo);
+        elegirArchivo.setVisible(true);
+    }
             
-            botonCtr.setVisible(false);
-        }
-    }
-    
     @FXML
-    private void accionMostrar(ActionEvent event)
+    private void accionMostrar(MouseEvent event)
     {
-        if(botonMostrar.getText().equals("Mostrar"))
-        {
             tablaDeFrecuencia.setVisible(true);
-            botonMostrar.setText("Ocultar");
-        }
-        
-        else
-        {
-            tablaDeFrecuencia.setVisible(false);
-            botonMostrar.setText("Mostrar");
-        }
+            mostrarTabla.setVisible(false); 
+            ocultarTabla.setVisible(true);
     }
     
+    @FXML
+    private void accionOcultar(MouseEvent event)
+    {
+            tablaDeFrecuencia.setVisible(false);
+            mostrarTabla.setVisible(true);
+            ocultarTabla.setVisible(false);
+    }
     
     @FXML
-    private void llenar(ActionEvent event)
+    private void guardarFichero(MouseEvent event)
     {
-       if(trCodificar.visibleProperty().get() && trDecodificar.visibleProperty().get())
+       try
        {
-           trCodificar.setVisible(false);
-           trDecodificar.setVisible(false);
-           botonCtr.setText("Mostar codificacion en tiempo real");
-        }
-       else
+            Iniciadores.guardarFichero(rutaLectura, caracteres);
+       }
+       
+       catch(Exception e)
        {
-           trCodificar.setVisible(true);
-           trDecodificar.setVisible(true);
-           botonCtr.setText("Ocultar codificacion en tiempo real");
+           System.out.print("");
        }
     }
-    
-    @FXML
-    private void Codificar()
-    {
-       String text = trCodificar.getText();
-       String codificacion;
-       
-       // codificacion
-       codificacion = Iniciadores.codificarCadena( Iniciadores.arbolito,  text );
-       
-       trDecodificar.setText(codificacion);
-    }
-    
-    @FXML
-    private void Decodificar()
-    {
-       String text = trDecodificar.getText();
-       String decodificacion;
-       
-       // decodificacion
-       decodificacion = Iniciadores.decodificarCadena( Iniciadores.arbolito,  text );
-       
-       trCodificar.setText(decodificacion);
-    }
-    
     
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
-        codificarNuevoArchivo.setDisable(true);
-        tablaDeFrecuencia.setVisible(false);
-        mensaje.setVisible(false);
-        mensaje1.setVisible(false);
+        Iniciadores.desactivador(tablaDeFrecuencia, mostrarTabla, ocultarTabla, codificarNuevoArchivo, guardarArchivo);
     }    
 }

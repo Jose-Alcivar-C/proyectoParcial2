@@ -17,8 +17,9 @@ public class Index extends Application
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("codificador de Huffman");
         stage.show();
-        
     }
 
     public static void main(String[] args) 

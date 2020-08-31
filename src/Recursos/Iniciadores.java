@@ -4,27 +4,28 @@ import TDAs.ArbolBinarioBusqueda;
 import java.io.File;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.TreeMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
 public class Iniciadores
 {
-    public static ArbolBinarioBusqueda arbolito;
-    
-    
     //Este método setea los valores que contendrá la tabla de informacion del archivo
-    public static void mostrarCodificacion(String archivoALeer, TableView tabla, TableColumn letra, TableColumn frecuencia, TableColumn codigo)
+    public static Map<String, String> mostrarCodificacion(String archivoALeer, TableView tabla, TableColumn letra, TableColumn frecuencia, TableColumn codigo)
     {
         //esta lista contiene los elementos que irán en la tabla
         ObservableList<ContenidoTabla> llenar = FXCollections.observableArrayList();
         
+        Map<String, String> valores = new TreeMap<>();
+        
         Map<String, Integer> mapita = Utilitarios.lectorDeArchivo(archivoALeer);
         PriorityQueue<ArbolBinarioBusqueda> colita = Utilitarios.creadorCola(mapita);
-        arbolito = Utilitarios.generarArbolDelTexto(colita);
+        ArbolBinarioBusqueda arbolito = Utilitarios.generarArbolDelTexto(colita);
        
         while(!colita.isEmpty())
         {
@@ -34,6 +35,8 @@ public class Iniciadores
             
             ContenidoTabla agregar = new ContenidoTabla(caracterBuscado, cod, frec);
             llenar.add(agregar);
+            
+            valores.put(caracterBuscado, cod);
         }
         
         letra = (TableColumn<ContenidoTabla, String>)tabla.getColumns().get(0);
@@ -45,11 +48,13 @@ public class Iniciadores
         codigo.setCellValueFactory(new PropertyValueFactory<ContenidoTabla, String>("codigo"));
         
         tabla.setItems(llenar);
+        
+        return valores;
     }
     
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //Este método nos permite escoger un archivo dandole clic
-    public static void elegirArchivo(TableView tabla, TableColumn letra, TableColumn frecuencia, TableColumn codigo)
+    public static String elegirArchivo()
     {
         FileChooser elegirArchivo = new FileChooser();
         elegirArchivo.setTitle("Elegir archivo de texto");
@@ -62,8 +67,8 @@ public class Iniciadores
         {
             if(archivo != null)
             {
-                mostrarCodificacion(ruta, tabla, letra, frecuencia, codigo);
                 System.out.println(ruta);
+                return ruta;
             }
         }
         
@@ -71,48 +76,52 @@ public class Iniciadores
         {
             System.out.println("elija un archivo");
         }
-    }
-   
-    
-    /***
-     * Método para codificar una cadena
-     * @param arbolito arbol binario de huffman
-     * @param cadena secuencia de letras a codificar
-     * @return cadena de texto codificada
-     */
-    public static String codificarCadena(ArbolBinarioBusqueda arbolito, String cadena )
-    {
-        StringBuilder cadenaCodificada = new StringBuilder();
         
-        for(Character caracter : cadena.toCharArray()){
-            String codigo = Utilitarios.generadorDeCodigo(arbolito, caracter.toString(), "");
-            cadenaCodificada.append(codigo);
-            
-        }
-        return cadenaCodificada.toString();
+        return null;
     }
     
-    /***
-     * Método para decodificar una cadena
-     * @param arbolito arbol binario de huffman
-     * @param cadena secuencia de unos y ceros a decodificar
-     * @return cadena de texto decodificada
-     */
-    public static String decodificarCadena(ArbolBinarioBusqueda arbolito, String cadena )
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //Este método nos permite guardar un archivo a elección
+    public static void guardarFichero(String rutaParaLeer, Map<String, String> arbolBase)
     {
-        StringBuilder cadenaCodificada = new StringBuilder();
-        String tmp = "";
+        FileChooser elegirArchivo = new FileChooser();
+        elegirArchivo.setTitle("Seleccione ruta para guardar");
+        elegirArchivo.getExtensionFilters().add(new FileChooser.ExtensionFilter("archivo de texto","*.txt"));
         
-        for(Character bit : cadena.toCharArray())
+        File archivo = elegirArchivo.showSaveDialog(null);
+        String ruta = archivo.getAbsolutePath();
+        
+        try
         {
-            tmp  = tmp + bit;
-            String decodificacion = Utilitarios.generadorDeCaracteres( arbolito, tmp);
-            
-            if( decodificacion != null){
-                cadenaCodificada.append(decodificacion);
-                tmp = "";
+            if(archivo != null)
+            {
+                Utilitarios.escritorDeArchivo(rutaParaLeer, arbolBase, ruta);
             }
         }
-        return cadenaCodificada.toString();
+        
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+    }
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //Este método inhabilita todo lo que recibe por parámetro
+    public static void desactivador(TableView tabla, ImageView mostrarTabla, ImageView ocultarTabla, ImageView codificar, ImageView guardar)
+    {
+        tabla.setVisible(false);
+        mostrarTabla.setVisible(false);
+        ocultarTabla.setVisible(false);
+        codificar.setVisible(false);
+        guardar.setVisible(false);
+    }
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //Este método habilita todo lo que recibe por parámetro
+    public static void activador(ImageView mostrarTabla, ImageView codificar, ImageView guardar)
+    {
+        mostrarTabla.setVisible(true);
+        codificar.setVisible(true);
+        guardar.setVisible(true);
     }
 }
