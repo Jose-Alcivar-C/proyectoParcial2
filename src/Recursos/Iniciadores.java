@@ -2,13 +2,17 @@ package Recursos;
 
 import TDAs.ArbolBinarioBusqueda;
 import java.io.File;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 import java.util.TreeMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -107,21 +111,81 @@ public class Iniciadores
     
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //Este método inhabilita todo lo que recibe por parámetro
-    public static void desactivador(TableView tabla, ImageView mostrarTabla, ImageView ocultarTabla, ImageView codificar, ImageView guardar)
+    public static void desactivador(TableView tabla, ImageView mostrarTabla, ImageView ocultarTabla, ImageView codificar, ImageView guardar, 
+                                                    ImageView tiempoReal, TextArea escritoOriginal, TextArea escritoCodificado, Label mensajito)
     {
         tabla.setVisible(false);
         mostrarTabla.setVisible(false);
         ocultarTabla.setVisible(false);
         codificar.setVisible(false);
         guardar.setVisible(false);
+        tiempoReal.setVisible(false);
+        escritoOriginal.setVisible(false);
+        escritoCodificado.setVisible(false);
+        mensajito.setVisible(false);
     }
     
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //Este método habilita todo lo que recibe por parámetro
-    public static void activador(ImageView mostrarTabla, ImageView codificar, ImageView guardar)
+    public static void activador(ImageView mostrarTabla, ImageView codificar, ImageView guardar, ImageView tiempoReal) 
     {
         mostrarTabla.setVisible(true);
         codificar.setVisible(true);
         guardar.setVisible(true);
+        tiempoReal.setVisible(true);
+    }
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //Este método recibe un mapa de (letras y codigo) y devuelve un mapa de (codigo y letra)
+    public static Map<String, String> mapaInverso(Map<String, String> mapaDeCodigos)
+    {
+        if(mapaDeCodigos != null)
+        {
+            Map<String, String> mapaInverso = new TreeMap<>();
+            
+            Set<String> claves = mapaDeCodigos.keySet();
+            Iterator<String> iterador = claves.iterator();
+            
+            while(iterador.hasNext())
+            {
+                String cla = iterador.next();
+                String val = mapaDeCodigos.get(cla);
+                
+                mapaInverso.put(val, cla);
+            }
+            
+            return mapaInverso;
+        }
+        
+        else
+        {
+            return null;
+        }
+    }
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //Este método lee y escribe en tiempo real
+    public static void ecritorTiempoReal(TextArea escritoOriginal, TextArea escritoCodificado, Map<String, String> mapaDeFrecuencias)
+    {
+        String leido = escritoOriginal.getText();
+        escritoCodificado.setText("");
+        char[] caracteres = leido.toCharArray();
+        String codigo = "";
+        
+        for(char letrita: caracteres)
+        {
+            String valor = String.valueOf(letrita);
+            
+            if(mapaDeFrecuencias.containsKey(valor))
+            {
+                codigo = codigo + mapaDeFrecuencias.get(valor);
+            }
+            
+            else
+            {
+                codigo = codigo + "";
+            }
+        }
+        escritoCodificado.setText(codigo);
     }
 }

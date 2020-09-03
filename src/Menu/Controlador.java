@@ -9,13 +9,27 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 public class Controlador implements Initializable 
 {   
     private String rutaLectura;
     private Map<String, String> caracteres;
+    
+    @FXML
+    private Label mensajito;
+    
+    @FXML
+    private TextArea escritoOriginal;
+    
+    @FXML
+    private ImageView tiempoReal;
+    
+    @FXML
+    private TextArea escritoCodificado;
     
     @FXML
     private ImageView codificarNuevoArchivo;
@@ -56,7 +70,7 @@ public class Controlador implements Initializable
             rutaLectura = Iniciadores.elegirArchivo();
             caracteres = Iniciadores.mostrarCodificacion(rutaLectura, tablaDeFrecuencia, letra, frecuencia, codigo);
             elegirArchivo.setVisible(false);
-            Iniciadores.activador(mostrarTabla, codificarNuevoArchivo, guardarArchivo);
+            Iniciadores.activador(mostrarTabla, codificarNuevoArchivo, guardarArchivo, tiempoReal);
         }
         
         catch(Exception e)
@@ -68,7 +82,8 @@ public class Controlador implements Initializable
     @FXML
     private void accionCodificarNuevo(MouseEvent event)
     {
-        Iniciadores.desactivador(tablaDeFrecuencia, mostrarTabla, ocultarTabla, codificarNuevoArchivo, guardarArchivo);
+        Iniciadores.desactivador(tablaDeFrecuencia, mostrarTabla, ocultarTabla, codificarNuevoArchivo, guardarArchivo, tiempoReal, 
+                                    escritoOriginal, escritoCodificado, mensajito);
         elegirArchivo.setVisible(true);
     }
             
@@ -102,9 +117,36 @@ public class Controlador implements Initializable
        }
     }
     
+    @FXML
+    private void botonCodificarTiempoReal(MouseEvent event)
+    {
+        if(escritoOriginal.isVisible() && mensajito.isVisible() && escritoCodificado.isVisible())
+        {
+            escritoOriginal.setVisible(false);
+            mensajito.setVisible(false);
+            escritoCodificado.setVisible(false);
+        }
+        
+        else
+        {
+            escritoOriginal.setVisible(true);
+            mensajito.setVisible(true);
+            escritoCodificado.setVisible(true);
+        }
+    }
+    
+    @FXML
+    private void codificarTiempoReal(KeyEvent event)
+    {
+        Iniciadores.ecritorTiempoReal(escritoOriginal, escritoCodificado, caracteres);
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) 
     {
-        Iniciadores.desactivador(tablaDeFrecuencia, mostrarTabla, ocultarTabla, codificarNuevoArchivo, guardarArchivo);
+        escritoOriginal.setWrapText(true);
+        escritoCodificado.setWrapText(true);
+        Iniciadores.desactivador(tablaDeFrecuencia, mostrarTabla, ocultarTabla, codificarNuevoArchivo, guardarArchivo, tiempoReal,
+                                    escritoOriginal, escritoCodificado, mensajito);
     }    
 }
