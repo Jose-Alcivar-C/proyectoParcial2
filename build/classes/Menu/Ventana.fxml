@@ -12,19 +12,19 @@
 
 <AnchorPane fx:id="contenedorBase" maxHeight="0.0" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.Controlador">
    <children>
-      <TableView fx:id="tablaDeFrecuencia" layoutX="538.0" layoutY="303.0" prefHeight="358.0" prefWidth="332.0">
+      <TableView fx:id="tablaDeFrecuencia" layoutX="538.0" layoutY="303.0" prefHeight="358.0" prefWidth="342.0">
         <columns>
           <TableColumn fx:id="letra" prefWidth="45.0" resizable="false" style="-fx-alignment: center;" text="letra" />
           <TableColumn fx:id="frecuencia" prefWidth="114.0" resizable="false" style="-fx-alignment: center;" text="veces que aparece" />
-            <TableColumn fx:id="codigo" prefWidth="162.0" resizable="false" style="-fx-alignment: center;" text="codigo Huffman" />
+            <TableColumn fx:id="codigo" prefWidth="166.5" resizable="false" style="-fx-alignment: center;" text="código Huffman" />
         </columns>
       </TableView>
-      <ImageView fitHeight="246.0" fitWidth="900.0">
+      <ImageView fitHeight="218.0" fitWidth="900.0">
          <image>
             <Image url="@../EdicionVentana/banner.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="elegirArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="21.0" layoutY="263.0" onMouseClicked="#accionCodificarArchivo">
+      <ImageView fx:id="elegirArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="34.0" layoutY="263.0" onMouseClicked="#accionCodificarArchivo">
          <image>
             <Image url="@../EdicionVentana/elegir%20archivo.png" />
          </image>
@@ -39,13 +39,13 @@
             <Image url="@../EdicionVentana/tabla(ver).png" />
          </image>
       </ImageView>
-      <Separator layoutX="498.0" layoutY="245.0" orientation="VERTICAL" prefHeight="430.0" prefWidth="40.0" />
+      <Separator layoutX="523.0" layoutY="255.0" orientation="VERTICAL" prefHeight="422.0" prefWidth="12.0" />
       <ImageView fx:id="codificarNuevoArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="294.0" layoutY="263.0" onMouseClicked="#accionCodificarNuevo">
          <image>
             <Image url="@../EdicionVentana/codificarNuevo.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="guardarArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="21.0" layoutY="263.0" onMouseClicked="#guardarFichero">
+      <ImageView fx:id="guardarArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="34.0" layoutY="263.0" onMouseClicked="#guardarFichero">
          <image>
             <Image url="@../EdicionVentana/guardarArchivo.png" />
          </image>
@@ -54,11 +54,11 @@
          <font>
             <Font size="14.0" />
          </font></TextArea>
-      <TextArea fx:id="escritoCodificado" editable="false" layoutX="14.0" layoutY="533.0" prefHeight="128.0" prefWidth="240.0" promptText="Se codificará de acuerdo al archivo más reciente.">
+      <TextArea fx:id="escritoCodificado" editable="false" layoutX="14.0" layoutY="533.0" prefHeight="128.0" prefWidth="240.0" promptText="Se codificará de acuerdo al archivo más reciente." wrapText="true">
          <font>
             <Font size="14.0" />
          </font></TextArea>
-      <ImageView fx:id="tiempoReal" accessibleRole="BUTTON" fitHeight="35.0" fitWidth="200.0" layoutX="21.0" layoutY="326.0" onMouseClicked="#botonCodificarTiempoReal">
+      <ImageView fx:id="tiempoReal" accessibleRole="BUTTON" fitHeight="35.0" fitWidth="200.0" layoutX="34.0" layoutY="326.0" onMouseClicked="#botonCodificarTiempoReal">
          <image>
             <Image url="@../EdicionVentana/tiempoReal.png" />
          </image>
@@ -68,7 +68,32 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Separator layoutX="3.0" layoutY="314.0" prefHeight="0.0" prefWidth="514.0" />
-      <Separator layoutX="254.0" layoutY="245.0" orientation="VERTICAL" prefHeight="430.0" prefWidth="40.0" />
+      <Separator layoutX="3.0" layoutY="314.0" prefHeight="3.0" prefWidth="526.0" />
+      <Separator layoutX="257.0" layoutY="255.0" orientation="VERTICAL" prefHeight="422.0" prefWidth="15.0" />
+      <TextArea fx:id="escritoCodificado2" layoutX="274.0" layoutY="375.0" maxWidth="250.0" onKeyReleased="#decodificarTiempoReal" prefHeight="128.0" prefWidth="240.0" promptText="Escriba aquí su código." wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextArea>
+      <TextArea fx:id="escritoOriginal2" editable="false" layoutX="274.0" layoutY="532.0" prefHeight="128.0" prefWidth="240.0" promptText="Se decodificará de acuerdo al archivo más reciente." wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </TextArea>
+      <Label fx:id="mensajito2" layoutX="281.0" layoutY="503.0" prefHeight="29.0" prefWidth="164.0" text="Decodificación:">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <ImageView fx:id="decoTiempoReal" accessibleRole="BUTTON" fitHeight="35.0" fitWidth="200.0" layoutX="294.0" layoutY="326.0" onMouseClicked="#botonDecodificarTiempoReal">
+         <image>
+            <Image url="@../EdicionVentana/decoTiempoReal.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="rutaMostrada" alignment="CENTER" layoutX="3.0" layoutY="218.0" prefHeight="38.0" prefWidth="884.0" textAlignment="CENTER" textFill="#0e0e0e" wrapText="true">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

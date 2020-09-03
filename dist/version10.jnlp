@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="version09.jnlp">
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="version10.jnlp">
   <information>
-    <title>version09</title>
+    <title>version10</title>
     <vendor>Usuario</vendor>
     <description>null</description>
     <offline-allowed/>
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="version09.jar" size="136508" download="eager" />
+    <jar href="version10.jar" size="145798" download="eager" />
   </resources>
-  <jfx:javafx-desc  width="800" height="600" main-class="Menu.Index"  name="version09" />
+  <jfx:javafx-desc  width="800" height="600" main-class="Menu.Index"  name="version10" />
   <update check="always"/>
 </jnlp>

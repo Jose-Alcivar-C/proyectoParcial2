@@ -20,6 +20,9 @@ public class Controlador implements Initializable
     private Map<String, String> caracteres;
     
     @FXML
+    private Label rutaMostrada;
+    
+    @FXML
     private Label mensajito;
     
     @FXML
@@ -30,6 +33,18 @@ public class Controlador implements Initializable
     
     @FXML
     private TextArea escritoCodificado;
+    
+    @FXML
+    private Label mensajito2;
+    
+    @FXML
+    private TextArea escritoOriginal2;
+    
+    @FXML
+    private ImageView decoTiempoReal;
+    
+    @FXML
+    private TextArea escritoCodificado2;
     
     @FXML
     private ImageView codificarNuevoArchivo;
@@ -70,7 +85,8 @@ public class Controlador implements Initializable
             rutaLectura = Iniciadores.elegirArchivo();
             caracteres = Iniciadores.mostrarCodificacion(rutaLectura, tablaDeFrecuencia, letra, frecuencia, codigo);
             elegirArchivo.setVisible(false);
-            Iniciadores.activador(mostrarTabla, codificarNuevoArchivo, guardarArchivo, tiempoReal);
+            Iniciadores.activador(mostrarTabla, codificarNuevoArchivo, guardarArchivo, tiempoReal, decoTiempoReal);
+            rutaMostrada.setText("Archivo leído --> " + rutaLectura);
         }
         
         catch(Exception e)
@@ -83,8 +99,13 @@ public class Controlador implements Initializable
     private void accionCodificarNuevo(MouseEvent event)
     {
         Iniciadores.desactivador(tablaDeFrecuencia, mostrarTabla, ocultarTabla, codificarNuevoArchivo, guardarArchivo, tiempoReal, 
-                                    escritoOriginal, escritoCodificado, mensajito);
+                   escritoOriginal, escritoCodificado, mensajito, decoTiempoReal, escritoOriginal2, escritoCodificado2, mensajito2);
         elegirArchivo.setVisible(true);
+        escritoOriginal2.clear();
+        escritoCodificado2.clear();
+        escritoOriginal.clear();
+        escritoCodificado.clear();
+        rutaMostrada.setText("");
     }
             
     @FXML
@@ -136,9 +157,33 @@ public class Controlador implements Initializable
     }
     
     @FXML
+    private void botonDecodificarTiempoReal(MouseEvent event)
+    {
+        if(escritoOriginal2.isVisible() && mensajito2.isVisible() && escritoCodificado2.isVisible())
+        {
+            escritoOriginal2.setVisible(false);
+            mensajito2.setVisible(false);
+            escritoCodificado2.setVisible(false);
+        }
+        
+        else
+        {
+            escritoOriginal2.setVisible(true);
+            mensajito2.setVisible(true);
+            escritoCodificado2.setVisible(true);
+        }
+    }
+    
+    @FXML
     private void codificarTiempoReal(KeyEvent event)
     {
-        Iniciadores.ecritorTiempoReal(escritoOriginal, escritoCodificado, caracteres);
+        Iniciadores.codificadorTiempoReal(escritoOriginal, escritoCodificado, caracteres);
+    }
+    
+    @FXML
+    private void decodificarTiempoReal(KeyEvent event)
+    {
+        Iniciadores.decodificadorTiempoReal(escritoOriginal2, escritoCodificado2, caracteres);
     }
     
     @Override
@@ -146,7 +191,9 @@ public class Controlador implements Initializable
     {
         escritoOriginal.setWrapText(true);
         escritoCodificado.setWrapText(true);
+        escritoOriginal2.setWrapText(true);
+        escritoCodificado2.setWrapText(true);
         Iniciadores.desactivador(tablaDeFrecuencia, mostrarTabla, ocultarTabla, codificarNuevoArchivo, guardarArchivo, tiempoReal,
-                                    escritoOriginal, escritoCodificado, mensajito);
+                                escritoOriginal, escritoCodificado, mensajito, decoTiempoReal, escritoOriginal2, escritoCodificado2, mensajito2);
     }    
 }

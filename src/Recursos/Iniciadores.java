@@ -22,10 +22,10 @@ public class Iniciadores
     //Este método setea los valores que contendrá la tabla de informacion del archivo
     public static Map<String, String> mostrarCodificacion(String archivoALeer, TableView tabla, TableColumn letra, TableColumn frecuencia, TableColumn codigo)
     {
-        //esta lista contiene los elementos que irán en la tabla
-        ObservableList<ContenidoTabla> llenar = FXCollections.observableArrayList();
+        ObservableList<ContenidoTabla> llenar = FXCollections.observableArrayList();//esta lista contiene los elementos que irán en la tabla
+                                                                                    //de frecuencias
         
-        Map<String, String> valores = new TreeMap<>();
+        Map<String, String> valores = new TreeMap<>();//mapa de letra y codigo
         
         Map<String, Integer> mapita = Utilitarios.lectorDeArchivo(archivoALeer);
         PriorityQueue<ArbolBinarioBusqueda> colita = Utilitarios.creadorCola(mapita);
@@ -71,7 +71,6 @@ public class Iniciadores
         {
             if(archivo != null)
             {
-                System.out.println(ruta);
                 return ruta;
             }
         }
@@ -112,7 +111,8 @@ public class Iniciadores
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //Este método inhabilita todo lo que recibe por parámetro
     public static void desactivador(TableView tabla, ImageView mostrarTabla, ImageView ocultarTabla, ImageView codificar, ImageView guardar, 
-                                                    ImageView tiempoReal, TextArea escritoOriginal, TextArea escritoCodificado, Label mensajito)
+                                    ImageView tiempoReal, TextArea escritoOriginal, TextArea escritoCodificado, Label mensajito,
+                                    ImageView decoTiempoReal, TextArea escritoOriginal2, TextArea escritoCodificado2, Label mensajito2)
     {
         tabla.setVisible(false);
         mostrarTabla.setVisible(false);
@@ -123,21 +123,52 @@ public class Iniciadores
         escritoOriginal.setVisible(false);
         escritoCodificado.setVisible(false);
         mensajito.setVisible(false);
+        decoTiempoReal.setVisible(false);
+        escritoOriginal2.setVisible(false);
+        escritoCodificado2.setVisible(false);
+        mensajito2.setVisible(false);
     }
     
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //Este método habilita todo lo que recibe por parámetro
-    public static void activador(ImageView mostrarTabla, ImageView codificar, ImageView guardar, ImageView tiempoReal) 
+    public static void activador(ImageView mostrarTabla, ImageView codificar, ImageView guardar, ImageView tiempoReal, ImageView decoTiempoReal) 
     {
         mostrarTabla.setVisible(true);
         codificar.setVisible(true);
         guardar.setVisible(true);
         tiempoReal.setVisible(true);
+        decoTiempoReal.setVisible(true);
+    }
+    
+    //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    //Este método lee y escribe codigo en tiempo real
+    public static void codificadorTiempoReal(TextArea escritoOriginal, TextArea escritoCodificado, Map<String, String> mapaDeFrecuencias)
+    {
+        String leido = escritoOriginal.getText();
+        escritoCodificado.setText("");
+        char[] caracteres = leido.toCharArray();
+        String codigo = "";
+        
+        for(char letrita: caracteres)
+        {
+            String valor = String.valueOf(letrita);
+            
+            if(mapaDeFrecuencias.containsKey(valor))
+            {
+                codigo = codigo + mapaDeFrecuencias.get(valor);
+            }
+            
+            else
+            {
+                codigo = codigo + "";
+            }
+        }
+        escritoCodificado.setText(codigo);
     }
     
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //Este método recibe un mapa de (letras y codigo) y devuelve un mapa de (codigo y letra)
-    public static Map<String, String> mapaInverso(Map<String, String> mapaDeCodigos)
+    private static Map<String, String> mapaInverso(Map<String, String> mapaDeCodigos)
     {
         if(mapaDeCodigos != null)
         {
@@ -164,28 +195,28 @@ public class Iniciadores
     }
     
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //Este método lee y escribe en tiempo real
-    public static void ecritorTiempoReal(TextArea escritoOriginal, TextArea escritoCodificado, Map<String, String> mapaDeFrecuencias)
+    //Este método lee codigo y escribe letra en tiempo real
+    public static void decodificadorTiempoReal(TextArea escritoOriginal2, TextArea escritoCodificado2, Map<String, String> mapaDeFrecuencias)
     {
-        String leido = escritoOriginal.getText();
-        escritoCodificado.setText("");
-        char[] caracteres = leido.toCharArray();
-        String codigo = "";
-        
-        for(char letrita: caracteres)
-        {
-            String valor = String.valueOf(letrita);
+            Map<String, String> nuevoMapa = mapaInverso(mapaDeFrecuencias);//mapa de codigo  y letra
             
-            if(mapaDeFrecuencias.containsKey(valor))
-            {
-                codigo = codigo + mapaDeFrecuencias.get(valor);
-            }
+            String codLeido = escritoCodificado2.getText();
+            escritoOriginal2.setText("");
+            char[] binario = codLeido.toCharArray();
             
-            else
+            String textoParaEscribir ="";
+            String buscado ="";
+            
+            for(char bit: binario)
             {
-                codigo = codigo + "";
+                buscado = buscado + String.valueOf(bit);
+                
+                if(nuevoMapa.containsKey(buscado))
+                {
+                    textoParaEscribir = textoParaEscribir + nuevoMapa.get(buscado);
+                    buscado = "";
+                }
             }
-        }
-        escritoCodificado.setText(codigo);
+            escritoOriginal2.setText(textoParaEscribir);
     }
 }
