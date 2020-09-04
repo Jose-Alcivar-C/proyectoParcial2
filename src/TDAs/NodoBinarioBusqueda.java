@@ -1,5 +1,10 @@
 package TDAs;
 
+/**
+ *
+ * @author Grupo 3
+ */
+
 public class NodoBinarioBusqueda 
 {
     private Huffman contenido;

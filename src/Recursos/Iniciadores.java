@@ -1,4 +1,4 @@
-package Recursos;
+package recursos;
 
 import TDAs.ArbolBinarioBusqueda;
 import java.io.File;
@@ -10,20 +10,23 @@ import java.util.TreeMap;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 
+/**
+ *
+ * @author Grupo 3
+ */
+
 public class Iniciadores
 {
-    //Este método setea los valores que contendrá la tabla de informacion del archivo
-    public static Map<String, String> mostrarCodificacion(String archivoALeer, TableView tabla, TableColumn letra, TableColumn frecuencia, TableColumn codigo)
+    //Este método setea los valores que contendrá la tabla de informacion del archivo  leído
+    public static Map<String, String> mostrarCodificacion(String archivoALeer, TableView tabla)
     {
-        ObservableList<ContenidoTabla> llenar = FXCollections.observableArrayList();//esta lista contiene los elementos que irán en la tabla
-                                                                                    //de frecuencias
+        ObservableList<ContenidoTabla> llenar = FXCollections.observableArrayList();//esta lista contiene los elementos que 
+                                                                                    //irán en la tabla de frecuencias
         
         Map<String, String> valores = new TreeMap<>();//mapa de letra y codigo
         
@@ -43,14 +46,6 @@ public class Iniciadores
             valores.put(caracterBuscado, cod);
         }
         
-        letra = (TableColumn<ContenidoTabla, String>)tabla.getColumns().get(0);
-        frecuencia = (TableColumn<ContenidoTabla, Integer>)tabla.getColumns().get(1);
-        codigo = (TableColumn<ContenidoTabla, String>)tabla.getColumns().get(2);
-        
-        letra.setCellValueFactory(new PropertyValueFactory<ContenidoTabla, String>("letra"));
-        frecuencia.setCellValueFactory(new PropertyValueFactory<ContenidoTabla, Integer>("frecuencia"));
-        codigo.setCellValueFactory(new PropertyValueFactory<ContenidoTabla, String>("codigo"));
-        
         tabla.setItems(llenar);
         
         return valores;
@@ -66,25 +61,12 @@ public class Iniciadores
         
         File archivo = elegirArchivo.showOpenDialog(null);
         String ruta = archivo.getAbsolutePath();
-        
-        try
-        {
-            if(archivo != null)
-            {
-                return ruta;
-            }
-        }
-        
-        catch(NullPointerException error)
-        {
-            System.out.println("elija un archivo");
-        }
-        
-        return null;
+       
+        return ruta;
     }
     
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //Este método nos permite guardar un archivo a elección
+    //Este método nos permite guardar un archivo a elección de ruta
     public static void guardarFichero(String rutaParaLeer, Map<String, String> arbolBase)
     {
         FileChooser elegirArchivo = new FileChooser();
@@ -94,18 +76,7 @@ public class Iniciadores
         File archivo = elegirArchivo.showSaveDialog(null);
         String ruta = archivo.getAbsolutePath();
         
-        try
-        {
-            if(archivo != null)
-            {
-                Utilitarios.escritorDeArchivo(rutaParaLeer, arbolBase, ruta);
-            }
-        }
-        
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
+        Utilitarios.escritorDeArchivo(rutaParaLeer, arbolBase, ruta);
     }
     
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -167,7 +138,7 @@ public class Iniciadores
     }
     
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //Este método recibe un mapa de (letras y codigo) y devuelve un mapa de (codigo y letra)
+    //Este método recibe un mapa de (letras y codigos) y devuelve un mapa de (codigos y letras)
     private static Map<String, String> mapaInverso(Map<String, String> mapaDeCodigos)
     {
         if(mapaDeCodigos != null)
@@ -198,7 +169,10 @@ public class Iniciadores
     //Este método lee codigo y escribe letra en tiempo real
     public static void decodificadorTiempoReal(TextArea escritoOriginal2, TextArea escritoCodificado2, Map<String, String> mapaDeFrecuencias)
     {
-            Map<String, String> nuevoMapa = mapaInverso(mapaDeFrecuencias);//mapa de codigo  y letra
+        if(mapaDeFrecuencias!=null)
+        {
+            Map<String, String> nuevoMapa;//mapa de codigo  y letra
+            nuevoMapa = mapaInverso(mapaDeFrecuencias);
             
             String codLeido = escritoCodificado2.getText();
             escritoOriginal2.setText("");
@@ -218,5 +192,6 @@ public class Iniciadores
                 }
             }
             escritoOriginal2.setText(textoParaEscribir);
+        }
     }
 }

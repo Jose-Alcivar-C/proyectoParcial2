@@ -1,5 +1,10 @@
 package TDAs;
 
+/**
+ *
+ * @author Grupo 3
+ */
+
 public class Huffman 
 {
     private String contenido;

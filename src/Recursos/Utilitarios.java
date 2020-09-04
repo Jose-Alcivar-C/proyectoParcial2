@@ -1,4 +1,4 @@
-package Recursos;
+package recursos;
 
 import TDAs.ArbolBinarioBusqueda;
 import TDAs.Huffman;
@@ -14,6 +14,11 @@ import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.TreeMap;
 
+/**
+ *
+ * @author Grupo 3
+ */
+
 public class Utilitarios 
 {
     //este metodo lee un archivo de texto y retorna un mapa con cada caracter y su frecuencia.
@@ -21,48 +26,46 @@ public class Utilitarios
     {
         Map<String, Integer> datos = new TreeMap<>();
         
-        try
+        try (FileReader lec1 = new FileReader(nombreDelArchivo)) 
         {
-           FileReader lec1 = new FileReader(nombreDelArchivo);
-           BufferedReader lec2 = new BufferedReader(lec1);
-           String linea;
-           
-           while((linea = lec2.readLine())!= null)
-           {
-               char[] caracteres = linea.toCharArray();
-               
-               for(char letra: caracteres)
-               {
-                   String agregar = String.valueOf(letra);
-                   if(datos.containsKey(agregar))
-                   {
-                       int frecuencia = datos.get(agregar)+1;
-                       datos.put(agregar, frecuencia);
-                   }
-                   
-                   else
-                   {
-                       datos.put(agregar, 1);
-                   }
-               }
-           }
-           
-           lec1.close();
-       }
+            BufferedReader lec2 = new BufferedReader(lec1);
+            String linea;
+                
+            while((linea = lec2.readLine())!= null)
+            {
+                char[] caracteres = linea.toCharArray();
+                    
+                for(char letra: caracteres)
+                {
+                    String agregar = String.valueOf(letra);
+                        
+                    if(datos.containsKey(agregar))
+                    {
+                        int frecuencia = datos.get(agregar)+1;
+                        datos.put(agregar, frecuencia);
+                    }
+                        
+                    else
+                    {
+                        datos.put(agregar, 1);
+                    }
+                }
+            }
+        }
         
        catch(IOException e)
        {
            System.out.println("No se encuentra el archivo" + e);
        }
         
-        return datos;
+       return datos;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     //este metodo recibe el mapa de frecuencias de caracteres y crea la cola de Prioridad de los Arboles
     public static PriorityQueue<ArbolBinarioBusqueda> creadorCola(Map<String, Integer> mapaDeFrecuencias)
     {
-        if(!mapaDeFrecuencias.isEmpty() && mapaDeFrecuencias != null)
+        if(!mapaDeFrecuencias.isEmpty())
         {
             PriorityQueue<ArbolBinarioBusqueda> colaDeArboles = new PriorityQueue<>((arb1, arb2)->
             { 
@@ -142,12 +145,12 @@ public class Utilitarios
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    //Este método retorna el código Huffman de la letra buscada, en base a un árbol pasado como parámetro
+    //Este método retorna el código Huffman de la letra buscada, en base a un árbol pasado como parámetro (es recursivo)
     public static String generadorDeCodigo(ArbolBinarioBusqueda arbol, String letraBuscada, String concatenar)
     {
         if(arbol != null)
         {
-            if(arbol.getIzquierdo().getRaiz().getContenido().getContenido().indexOf(letraBuscada) == -1)
+            if(!arbol.getIzquierdo().getRaiz().getContenido().getContenido().contains(letraBuscada))
             {
                 if(letraBuscada.equals(arbol.getDerecho().getRaiz().getContenido().getContenido()))
                 {
@@ -190,48 +193,45 @@ public class Utilitarios
         
         try
         {
-           FileReader lec1 = new FileReader(archivoParaLeer);
-           BufferedReader lec2 = new BufferedReader(lec1);
-           String linea;
-            
-           while((linea = lec2.readLine())!= null)
-           {
-               char[] caracteres = linea.toCharArray();
-               String lectura = "";
-               
-               for(char letra: caracteres)
-               {
-                   String leido = String.valueOf(letra);
-                   lectura = lectura + mapaDeBuscar.get(leido);
-               }
-               codificacion.add(lectura);
-           }
-           
-           lec1.close();
+            try (FileReader lec1 = new FileReader(archivoParaLeer)) 
+            {
+                BufferedReader lec2 = new BufferedReader(lec1);
+                String linea;
+                
+                while((linea = lec2.readLine())!= null)
+                {
+                    char[] caracteres = linea.toCharArray();
+                    String lectura = "";
+                    
+                    for(char letra: caracteres)
+                    {
+                        String leido = String.valueOf(letra);
+                        lectura = lectura + mapaDeBuscar.get(leido);
+                    }
+                    codificacion.add(lectura);
+                }
+            }
         }
         
-        catch(Exception e)
+        catch(IOException e)
         {
-            e.printStackTrace();
         }
         
         try
         {
             FileWriter escrito = new FileWriter(nombreNuevo);
-            BufferedWriter escrito2 = new BufferedWriter(escrito);
-            
-            for(String codi: codificacion)
+            try (BufferedWriter escrito2 = new BufferedWriter(escrito)) 
             {
-                escrito2.write(codi);
-                escrito2.newLine();
+                for(String codi: codificacion)
+                {
+                    escrito2.write(codi);
+                    escrito2.newLine();
+                }
             }
-            
-            escrito2.close();
         }
         
-        catch(Exception e)
+        catch(IOException e)
         {
-            e.printStackTrace();
         }
     }
 }

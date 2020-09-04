@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="version10.jnlp">
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="proyectoGrupo3.jnlp">
   <information>
-    <title>version10</title>
+    <title>proyectoGrupo3</title>
     <vendor>Usuario</vendor>
     <description>null</description>
     <offline-allowed/>
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="version10.jar" size="145798" download="eager" />
+    <jar href="proyectoGrupo3.jar" size="145870" download="eager" />
   </resources>
-  <jfx:javafx-desc  width="800" height="600" main-class="Menu.Index"  name="version10" />
+  <jfx:javafx-desc  width="800" height="600" main-class="menu.Index"  name="proyectoGrupo3" />
   <update check="always"/>
 </jnlp>

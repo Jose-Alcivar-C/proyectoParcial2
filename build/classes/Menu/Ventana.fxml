@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="contenedorBase" maxHeight="0.0" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Menu.Controlador">
+<AnchorPane fx:id="contenedorBase" maxHeight="0.0" maxWidth="0.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="675.0" prefWidth="890.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="menu.Controlador">
    <children>
       <TableView fx:id="tablaDeFrecuencia" layoutX="538.0" layoutY="303.0" prefHeight="358.0" prefWidth="342.0">
         <columns>
@@ -21,46 +21,46 @@
       </TableView>
       <ImageView fitHeight="218.0" fitWidth="900.0">
          <image>
-            <Image url="@../EdicionVentana/banner.png" />
+            <Image url="@../edicionVentana/banner.png" />
          </image>
       </ImageView>
       <ImageView fx:id="elegirArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="34.0" layoutY="263.0" onMouseClicked="#accionCodificarArchivo">
          <image>
-            <Image url="@../EdicionVentana/elegir%20archivo.png" />
+            <Image url="@../edicionVentana/elegir%20archivo.png" />
          </image>
       </ImageView>
       <ImageView fx:id="ocultarTabla" accessibleRole="BUTTON" fitHeight="38.0" fitWidth="200.0" layoutX="604.0" layoutY="255.0" onMouseClicked="#accionOcultar">
          <image>
-            <Image url="@../EdicionVentana/tabla(ocultar).png" />
+            <Image url="@../edicionVentana/tabla(ocultar).png" />
          </image>
       </ImageView>
       <ImageView fx:id="mostrarTabla" accessibleRole="BUTTON" fitHeight="38.0" fitWidth="200.0" layoutX="604.0" layoutY="255.0" onMouseClicked="#accionMostrar">
          <image>
-            <Image url="@../EdicionVentana/tabla(ver).png" />
+            <Image url="@../edicionVentana/tabla(ver).png" />
          </image>
       </ImageView>
       <Separator layoutX="523.0" layoutY="255.0" orientation="VERTICAL" prefHeight="422.0" prefWidth="12.0" />
       <ImageView fx:id="codificarNuevoArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="294.0" layoutY="263.0" onMouseClicked="#accionCodificarNuevo">
          <image>
-            <Image url="@../EdicionVentana/codificarNuevo.png" />
+            <Image url="@../edicionVentana/codificarNuevo.png" />
          </image>
       </ImageView>
       <ImageView fx:id="guardarArchivo" accessibleRole="BUTTON" fitHeight="40.0" fitWidth="200.0" layoutX="34.0" layoutY="263.0" onMouseClicked="#guardarFichero">
          <image>
-            <Image url="@../EdicionVentana/guardarArchivo.png" />
+            <Image url="@../edicionVentana/guardarArchivo.png" />
          </image>
       </ImageView>
       <TextArea fx:id="escritoOriginal" layoutX="14.0" layoutY="376.0" maxWidth="250.0" onKeyReleased="#codificarTiempoReal" prefHeight="128.0" prefWidth="240.0" promptText="Escriba aquí su texto." wrapText="true">
          <font>
             <Font size="14.0" />
          </font></TextArea>
-      <TextArea fx:id="escritoCodificado" editable="false" layoutX="14.0" layoutY="533.0" prefHeight="128.0" prefWidth="240.0" promptText="Se codificará de acuerdo al archivo más reciente." wrapText="true">
+      <TextArea fx:id="escritoCodificado" editable="false" layoutX="14.0" layoutY="533.0" prefHeight="128.0" prefWidth="240.0" promptText="Se codificará de acuerdo al archivo leído más reciente." wrapText="true">
          <font>
             <Font size="14.0" />
          </font></TextArea>
       <ImageView fx:id="tiempoReal" accessibleRole="BUTTON" fitHeight="35.0" fitWidth="200.0" layoutX="34.0" layoutY="326.0" onMouseClicked="#botonCodificarTiempoReal">
          <image>
-            <Image url="@../EdicionVentana/tiempoReal.png" />
+            <Image url="@../edicionVentana/tiempoReal.png" />
          </image>
       </ImageView>
       <Label fx:id="mensajito" layoutX="21.0" layoutY="504.0" prefHeight="29.0" prefWidth="164.0" text="Codificación Huffman:">
@@ -75,7 +75,7 @@
             <Font size="14.0" />
          </font>
       </TextArea>
-      <TextArea fx:id="escritoOriginal2" editable="false" layoutX="274.0" layoutY="532.0" prefHeight="128.0" prefWidth="240.0" promptText="Se decodificará de acuerdo al archivo más reciente." wrapText="true">
+      <TextArea fx:id="escritoOriginal2" editable="false" layoutX="274.0" layoutY="532.0" prefHeight="128.0" prefWidth="240.0" promptText="Se decodificará de acuerdo al archivo leído más reciente." wrapText="true">
          <font>
             <Font size="14.0" />
          </font>
@@ -87,7 +87,7 @@
       </Label>
       <ImageView fx:id="decoTiempoReal" accessibleRole="BUTTON" fitHeight="35.0" fitWidth="200.0" layoutX="294.0" layoutY="326.0" onMouseClicked="#botonDecodificarTiempoReal">
          <image>
-            <Image url="@../EdicionVentana/decoTiempoReal.png" />
+            <Image url="@../edicionVentana/decoTiempoReal.png" />
          </image>
       </ImageView>
       <Label fx:id="rutaMostrada" alignment="CENTER" layoutX="3.0" layoutY="218.0" prefHeight="38.0" prefWidth="884.0" textAlignment="CENTER" textFill="#0e0e0e" wrapText="true">

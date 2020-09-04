@@ -1,6 +1,6 @@
-package Menu;
+package menu;
 
-import Recursos.Iniciadores;
+import recursos.Iniciadores;
 import java.net.URL;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -10,9 +10,16 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import recursos.ContenidoTabla;
+
+/**
+ *
+ * @author Grupo 3
+ */
 
 public class Controlador implements Initializable 
 {   
@@ -83,7 +90,7 @@ public class Controlador implements Initializable
         try
         {
             rutaLectura = Iniciadores.elegirArchivo();
-            caracteres = Iniciadores.mostrarCodificacion(rutaLectura, tablaDeFrecuencia, letra, frecuencia, codigo);
+            caracteres = Iniciadores.mostrarCodificacion(rutaLectura, tablaDeFrecuencia);
             elegirArchivo.setVisible(false);
             Iniciadores.activador(mostrarTabla, codificarNuevoArchivo, guardarArchivo, tiempoReal, decoTiempoReal);
             rutaMostrada.setText("Archivo leído --> " + rutaLectura);
@@ -195,5 +202,13 @@ public class Controlador implements Initializable
         escritoCodificado2.setWrapText(true);
         Iniciadores.desactivador(tablaDeFrecuencia, mostrarTabla, ocultarTabla, codificarNuevoArchivo, guardarArchivo, tiempoReal,
                                 escritoOriginal, escritoCodificado, mensajito, decoTiempoReal, escritoOriginal2, escritoCodificado2, mensajito2);
+        
+        letra = (TableColumn<ContenidoTabla, String>)tablaDeFrecuencia.getColumns().get(0);
+        frecuencia = (TableColumn<ContenidoTabla, Integer>)tablaDeFrecuencia.getColumns().get(1);
+        codigo = (TableColumn<ContenidoTabla, String>)tablaDeFrecuencia.getColumns().get(2);
+        
+        letra.setCellValueFactory(new PropertyValueFactory<ContenidoTabla, String>("letra"));
+        frecuencia.setCellValueFactory(new PropertyValueFactory<ContenidoTabla, Integer>("frecuencia"));
+        codigo.setCellValueFactory(new PropertyValueFactory<ContenidoTabla, String>("codigo"));
     }    
 }

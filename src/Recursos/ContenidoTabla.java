@@ -1,15 +1,20 @@
-package Recursos;
+package recursos;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+/**
+ *
+ * @author Grupo 3
+ */
+
 public class ContenidoTabla 
 {
-    private StringProperty letra; 
-    private StringProperty codigo;
-    private IntegerProperty frecuencia;
+    private final StringProperty letra; 
+    private final StringProperty codigo;
+    private final IntegerProperty frecuencia;
     
     public ContenidoTabla(String letra, String codigo, Integer frecuencia)
     {
